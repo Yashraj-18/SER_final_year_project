@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>Speech Emotion Recognition</title>
+      <meta name="description" content="Advanced speech emotion recognition system">
+      <!-- Favicon -->
+      <link rel="icon" href="static/images/fevicon.png" type="image/gif" />
+      <!-- CSS -->
+      <link rel="stylesheet" href="static/css/bootstrap.min.css">
+      <link rel="stylesheet" href="static/css/style.css">
+      <link rel="stylesheet" href="static/css/responsive.css">
+      <link rel="stylesheet" href="static/css/jquery.mCustomScrollbar.min.css">
+      <!-- Font Awesome -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+      <!-- Tweaks for older IEs-->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+   </head>
+   <!-- body -->
+   <body style="background-color: #41B3A3;" class="main-layout home_page">
+      <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="static/images/loading.gif" alt="Loading..." /></div>
+      </div>
+      <!-- end loader -->
+      <!-- header -->
+      <header class="header-main">
+         <nav class="navbar navbar-expand-lg">
+            <div class="container">
+               <a class="navbar-brand" href="{{ url_for('home') }}">
+                  <span class="logo-text">SER</span>
+               </a>
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ms-auto">
+                     <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('home') }}">
+                           <i class="fas fa-home"></i> Home
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">
+                           <i class="fas fa-info-circle"></i> About
+                        </a>
+                     </li>
+                     {% if session['loggedin'] %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('application') }}">
+                           <i class="fas fa-microphone"></i> Application
+                        </a>
+                     </li>
+                     {% endif %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('contact') }}">
+                           <i class="fas fa-envelope"></i> Contact
+                        </a>
+                     </li>
+                     {% if session['loggedin'] %}
+                     <li class="nav-item">
+                        <a class="nav-link btn-logout" href="{{ url_for('logout') }}">
+                           <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                     </li>
+                     {% else %}
+                     <li class="nav-item">
+                        <a class="nav-link btn-login" href="{{ url_for('login') }}">
+                           <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                     </li>
+                     {% endif %}
+                  </ul>
+               </div>
+            </div>
+         </nav>
+      </header>
+      <!-- end header -->
+        <center>
+        <div class="col-md-8">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </div>
+    </center>
+      <section class="hero-section">
+         <div class="container">
+            <div class="row align-items-center min-vh-75">
+               <div class="col-lg-6">
+                  <div class="hero-content">
+                     <h1 class="display-4 fw-bold mb-4">Speech Emotion Recognition</h1>
+                     <p class="lead mb-4">Advanced AI-powered system that analyzes and recognizes emotions from speech patterns.</p>
+                     {% if not session['loggedin'] %}
+                        <div class="hero-buttons">
+                           <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-3">Get Started</a>
+                           <a href="{{ url_for('about') }}" class="btn btn-outline-primary btn-lg">Learn More</a>
+                        </div>
+                     {% else %}
+                        <div class="hero-buttons">
+                           <a href="{{ url_for('application') }}" class="btn btn-primary btn-lg">Try Now</a>
+                        </div>
+                     {% endif %}
+                  </div>
+               </div>
+               <div class="col-lg-6">
+                  <div class="hero-image">
+                     <img src="static/img/Capture5.jpg" alt="Speech Emotion Recognition" class="img-fluid rounded-3 shadow-lg">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- Modern Welcome Card -->
+      <section class="welcome-section py-4">
+         <div class="container">
+            <div class="row justify-content-center">
+               <div class="col-md-8 col-lg-6">
+                  <div class="card shadow welcome-card text-center p-4 border-0">
+                     <div class="mb-3">
+                        <i class="fas fa-smile-beam fa-2x text-primary"></i>
+                     </div>
+                     <h2 class="fw-bold mb-2" style="font-size:1.7rem;">Welcome to Speech Emotion Recognition!</h2>
+                     <p class="lead mb-0">Experience advanced AI-powered emotion analysis from your speech. Get started by exploring our features or logging in.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      
+      <!-- Features Section -->
+      <section class="features-section py-5">
+         <div class="container">
+            <div class="row g-4">
+               <div class="col-md-4">
+                  <div class="feature-card">
+                     <i class="fas fa-microphone-alt fa-3x mb-3 text-primary"></i>
+                     <h3>Voice Analysis</h3>
+                     <p>Advanced voice pattern analysis for accurate emotion detection.</p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="feature-card">
+                     <i class="fas fa-brain fa-3x mb-3 text-primary"></i>
+                     <h3>AI Powered</h3>
+                     <p>State-of-the-art machine learning algorithms for precise results.</p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="feature-card">
+                     <i class="fas fa-chart-line fa-3x mb-3 text-primary"></i>
+                     <h3>Real-time Results</h3>
+                     <p>Instant emotion recognition with detailed analysis.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <script src="static/js/jquery.min.js"></script>
+      <script src="static/js/popper.min.js"></script>
+      <script src="static/js/bootstrap.bundle.min.js"></script>
+      <script src="static/js/jquery-3.0.0.min.js"></script>
+      <script src="static/js/plugin.js"></script>
+      <!-- sidebar -->
+      <script src="static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="static/js/custom.js"></script>
+   </body>
+</html>
